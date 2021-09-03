@@ -60,7 +60,7 @@ public class SWRLBuiltInLibraryImpl extends AbstractSWRLBuiltInLibrary
     "addDayTimeDurationToDate", "subtractYearMonthDurationFromDate", "subtractDayTimeDurationFromDate",
     "addDayTimeDurationToTime", "subtractDayTimeDurationFromTime", "subtractDateTimesYieldingYearMonthDuration",
     "subtractDateTimesYieldingYearMonthDuration", "resolveURI", "anyURI", "listConcat", "listIntersection",
-    "listSubtraction", "member", "length", "first", "rest", "sublist", "empty", "addadd" , "max", "min"};
+    "listSubtraction", "member", "length", "first", "rest", "sublist", "empty", "addadd" , "max", "min", "selectOfTwo", "selectOfThree"};
 
   private static final String SWRLBPrefix = "swrlb:";
 
@@ -84,6 +84,8 @@ public class SWRLBuiltInLibraryImpl extends AbstractSWRLBuiltInLibrary
   private static final String SWRLB_ADD_ADD = SWRLBPrefix + "addadd";
   private static final String SWRLB_MAX = SWRLBPrefix + "max";
   private static final String SWRLB_MIN = SWRLBPrefix + "min";
+  private static final String SWRLB_SELECT_OF_TWO = SWRLBPrefix + "selectOfTwo";
+  private static final String SWRLB_SELECT_OF_Three = SWRLBPrefix + "selectOfThree";
   
   private static final MathContext mathContext = new MathContext(100);
 
@@ -1441,6 +1443,28 @@ public class SWRLBuiltInLibraryImpl extends AbstractSWRLBuiltInLibrary
     return mathOperation(SWRLB_MIN, arguments);
   }
   
+  /**
+   * @param arguments The built-in arguments
+   * @return The result of the built-in
+   * @throws SWRLBuiltInException If an error occurs during processing
+   */
+  public boolean selectOfTwo(@NonNull List<@NonNull SWRLBuiltInArgument> arguments) throws SWRLBuiltInException
+  {
+    checkNumberOfArgumentsEqualTo(5, arguments.size());
+    return mathOperation(SWRLB_SELECT_OF_TWO, arguments);
+  }
+  
+  /**
+   * @param arguments The built-in arguments
+   * @return The result of the built-in
+   * @throws SWRLBuiltInException If an error occurs during processing
+   */
+  public boolean selectOfThree(@NonNull List<@NonNull SWRLBuiltInArgument> arguments) throws SWRLBuiltInException
+  {
+    checkNumberOfArgumentsEqualTo(7, arguments.size());
+    return mathOperation(SWRLB_SELECT_OF_THREE, arguments);
+  }
+  
   // Private methods
 
   private int compareTwoNumericArguments(@NonNull List<@NonNull SWRLBuiltInArgument> arguments)
@@ -1552,8 +1576,24 @@ public class SWRLBuiltInLibraryImpl extends AbstractSWRLBuiltInLibrary
       operationResult = getArgumentAsADecimal(1, arguments);
       for (int argumentNumber = 2; argumentNumber < arguments.size(); argumentNumber++) {
         operationResult = operationResult.min(getArgumentAsADecimal(argumentNumber, arguments));
-      }
-    }else
+      } 
+    } else if (builtInName.equalsIgnoreCase(SWRLB_SELECT_OF_TWO)) {
+      BigDecimal argument2 = getArgumentAsADecimal(1, arguments);
+      BigDecimal argument3 = getArgumentAsADecimal(2, arguments);
+      BigDecimal argument4 = getArgumentAsADecimal(3, arguments);
+      BigDecimal argument5 = getArgumentAsADecimal(4, arguments);
+      
+      if //문자열로 비교
+    } else if (builtInName.equalsIgnoreCase(SWRLB_SELECT_OF_THREE)) {
+      BigDecimal argument2 = getArgumentAsADecimal(1, arguments);
+      BigDecimal argument3 = getArgumentAsADecimal(2, arguments);
+      BigDecimal argument4 = getArgumentAsADecimal(3, arguments);
+      BigDecimal argument5 = getArgumentAsADecimal(4, arguments);
+      BigDecimal argument6 = getArgumentAsADecimal(5, arguments);
+      BigDecimal argument7 = getArgumentAsADecimal(6, arguments);
+      
+      if 
+    } else
       throw new InvalidSWRLBuiltInNameException(builtInName);
 
     if (hasUnbound1stArgument) { // Bind the result to the first argument.
