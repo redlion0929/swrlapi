@@ -60,7 +60,7 @@ public class SWRLBuiltInLibraryImpl extends AbstractSWRLBuiltInLibrary
     "addDayTimeDurationToDate", "subtractYearMonthDurationFromDate", "subtractDayTimeDurationFromDate",
     "addDayTimeDurationToTime", "subtractDayTimeDurationFromTime", "subtractDateTimesYieldingYearMonthDuration",
     "subtractDateTimesYieldingYearMonthDuration", "resolveURI", "anyURI", "listConcat", "listIntersection",
-    "listSubtraction", "member", "length", "first", "rest", "sublist", "empty" };
+    "listSubtraction", "member", "length", "first", "rest", "sublist", "empty", "addadd" };
 
   private static final String SWRLBPrefix = "swrlb:";
 
@@ -81,7 +81,8 @@ public class SWRLBuiltInLibraryImpl extends AbstractSWRLBuiltInLibrary
   private static final String SWRLB_SIN = SWRLBPrefix + "sin";
   private static final String SWRLB_COS = SWRLBPrefix + "cos";
   private static final String SWRLB_TAN = SWRLBPrefix + "tan";
-
+  private static final String SWRLB_ADD_ADD = SWRLBPrefix + "addadd";
+  
   private static final MathContext mathContext = new MathContext(100);
 
   public SWRLBuiltInLibraryImpl()
@@ -1404,7 +1405,18 @@ public class SWRLBuiltInLibraryImpl extends AbstractSWRLBuiltInLibrary
   {
     throw new SWRLBuiltInNotImplementedException();
   }
-
+  
+  /**
+   * @param arguments The built-in arguments
+   * @return The result of the built-in
+   * @throws SWRLBuiltInException If an error occurs during processing
+   */
+  public boolean addadd(@NonNull List<@NonNull SWRLBuiltInArgument> arguments) throws SWRLBuiltInException
+  {
+    checkNumberOfArgumentsEqualTo(3, arguments.size());
+    return mathOperation(SWRLB_ADD_ADD, arguments);
+  }
+  
   // Private methods
 
   private int compareTwoNumericArguments(@NonNull List<@NonNull SWRLBuiltInArgument> arguments)
@@ -1502,6 +1514,11 @@ public class SWRLBuiltInLibraryImpl extends AbstractSWRLBuiltInLibrary
     } else if (builtInName.equalsIgnoreCase(SWRLB_TAN)) {
       BigDecimal argument2 = getArgumentAsADecimal(1, arguments);
       operationResult = BigDecimalMath.tan(argument2, mathContext);
+    } else if (builtInName.equalsIgnoreCase(SWRLB_ADD_ADD)) {
+      operationResult = BigDecimal.ZERO;
+      BigDecimal argument3 = getArgumentAsADecimal(2, arguments).multiply(new BigDecimal("2"));
+      BigDecimal argument2 = getArgumentAsADecimal(1, arguments);
+      operationResult =  operationResult.add(argument2).add(argument3);
     } else
       throw new InvalidSWRLBuiltInNameException(builtInName);
 
