@@ -1469,7 +1469,7 @@ public class SWRLBuiltInLibraryImpl extends AbstractSWRLBuiltInLibrary
       BigInteger argument3 = getArgumentAsAnInteger(2, arguments);
       operationResult = new BigDecimal(argument2.remainder(argument3));
     } else if (builtInName.equalsIgnoreCase(SWRLB_POW)) {
-      int argument3 = getArgumentAsADecimal(2, arguments);
+      BigDecimal argument3 = getArgumentAsADecimal(2, arguments);
       BigDecimal argument2 = getArgumentAsADecimal(1, arguments);
       operationResult = argument2.pow(argument3);
     } else if (builtInName.equalsIgnoreCase(SWRLB_UNARY_PLUS)) {
