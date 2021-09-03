@@ -60,7 +60,7 @@ public class SWRLBuiltInLibraryImpl extends AbstractSWRLBuiltInLibrary
     "addDayTimeDurationToDate", "subtractYearMonthDurationFromDate", "subtractDayTimeDurationFromDate",
     "addDayTimeDurationToTime", "subtractDayTimeDurationFromTime", "subtractDateTimesYieldingYearMonthDuration",
     "subtractDateTimesYieldingYearMonthDuration", "resolveURI", "anyURI", "listConcat", "listIntersection",
-    "listSubtraction", "member", "length", "first", "rest", "sublist", "empty", "addadd" };
+    "listSubtraction", "member", "length", "first", "rest", "sublist", "empty", "addadd" , "max", "min"};
 
   private static final String SWRLBPrefix = "swrlb:";
 
@@ -82,6 +82,8 @@ public class SWRLBuiltInLibraryImpl extends AbstractSWRLBuiltInLibrary
   private static final String SWRLB_COS = SWRLBPrefix + "cos";
   private static final String SWRLB_TAN = SWRLBPrefix + "tan";
   private static final String SWRLB_ADD_ADD = SWRLBPrefix + "addadd";
+  private static final String SWRLB_MAX = SWRLBPrefix + "max";
+  private static final String SWRLB_MIN = SWRLBPrefix + "min";
   
   private static final MathContext mathContext = new MathContext(100);
 
@@ -1417,6 +1419,28 @@ public class SWRLBuiltInLibraryImpl extends AbstractSWRLBuiltInLibrary
     return mathOperation(SWRLB_ADD_ADD, arguments);
   }
   
+  /**
+   * @param arguments The built-in arguments
+   * @return The result of the built-in
+   * @throws SWRLBuiltInException If an error occurs during processing
+   */
+  public boolean max(@NonNull List<@NonNull SWRLBuiltInArgument> arguments) throws SWRLBuiltInException
+  {
+     checkNumberOfArgumentsAtLeast(2, arguments.size());
+     return mathOperation(SWRLB_MAX, arguments);
+  }
+  
+  /**
+   * @param arguments The built-in arguments
+   * @return The result of the built-in
+   * @throws SWRLBuiltInException If an error occurs during processing
+   */
+  public boolean min(@NonNull List<@NonNull SWRLBuiltInArgument> arguments) throws SWRLBuiltInException
+  {
+    checkNumberOfArgumentsAtLeast(2, arguments.size());
+    return mathOperation(SWRLB_MIN, arguments);
+  }
+  
   // Private methods
 
   private int compareTwoNumericArguments(@NonNull List<@NonNull SWRLBuiltInArgument> arguments)
@@ -1519,7 +1543,17 @@ public class SWRLBuiltInLibraryImpl extends AbstractSWRLBuiltInLibrary
       BigDecimal argument3 = getArgumentAsADecimal(2, arguments).multiply(new BigDecimal("2"));
       BigDecimal argument2 = getArgumentAsADecimal(1, arguments);
       operationResult =  operationResult.add(argument2).add(argument3);
-    } else
+    } else if (builtInName.equalsIgnoreCase(SWRLB_MAX)) {
+      operationResult = getArgumentAsADecimal(1, arguments);
+      for (int argumentNumber = 2; argumentNumber < arguments.size(); argumentNumber++) {
+        operationResult = operationResult.max(getArgumentAsADecimal(argumentNumber, arguments));
+      }
+    } else if (builtInName.equalsIgnoreCase(SWRLB_MIN)) {
+      operationResult = getArgumentAsADecimal(1, arguments);
+      for (int argumentNumber = 2; argumentNumber < arguments.size(); argumentNumber++) {
+        operationResult = operationResult.min(getArgumentAsADecimal(argumentNumber, arguments));
+      }
+    }else
       throw new InvalidSWRLBuiltInNameException(builtInName);
 
     if (hasUnbound1stArgument) { // Bind the result to the first argument.
