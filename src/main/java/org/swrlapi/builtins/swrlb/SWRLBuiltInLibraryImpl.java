@@ -1471,24 +1471,6 @@ public class SWRLBuiltInLibraryImpl extends AbstractSWRLBuiltInLibrary
   {
     final int argument1Index = 0;
     final int argument2Index = 1;
-    final int tol = 0.001;
-    
-    checkThatAllArgumentsAreNumeric(arguments);
-
-    OWLLiteral literal1 = getArgumentAsAnOWLLiteral(argument1Index, arguments);
-    OWLLiteral literal2 = getArgumentAsAnOWLLiteral(argument2Index, arguments);
-    
-    
-    
-    return OWLLiteralComparator.COMPARATOR.compare(literal1, literal2);
-  }
-  
-  
-  private int compareTwoNumericArguments(@NonNull List<@NonNull SWRLBuiltInArgument> arguments)
-    throws SWRLBuiltInException
-  {
-    final int argument1Index = 0;
-    final int argument2Index = 1;
     Bigdecimal tol = new Bigdecimal(0.001);
 
     checkThatAllArgumentsAreNumeric(arguments);
@@ -1502,6 +1484,22 @@ public class SWRLBuiltInLibraryImpl extends AbstractSWRLBuiltInLibrary
       return 0;
     else 
       return -1;
+  }
+  
+  
+  private int compareTwoNumericArguments(@NonNull List<@NonNull SWRLBuiltInArgument> arguments)
+    throws SWRLBuiltInException
+  {
+    final int argument1Index = 0;
+    final int argument2Index = 1;
+    final int tol = 0.001;
+    
+    checkThatAllArgumentsAreNumeric(arguments);
+
+    OWLLiteral literal1 = getArgumentAsAnOWLLiteral(argument1Index, arguments);
+    OWLLiteral literal2 = getArgumentAsAnOWLLiteral(argument2Index, arguments);
+   
+    return OWLLiteralComparator.COMPARATOR.compare(literal1, literal2);
   }
 
   private boolean mathOperation(@NonNull String builtInName, @NonNull List<@NonNull SWRLBuiltInArgument> arguments)
