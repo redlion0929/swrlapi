@@ -1471,7 +1471,7 @@ public class SWRLBuiltInLibraryImpl extends AbstractSWRLBuiltInLibrary
   {
     final int argument1Index = 0;
     final int argument2Index = 1;
-    Bigdecimal tol = new Bigdecimal(0.001);
+    BigDecimal tol = new BigDecimal(0.001);
 
     checkThatAllArgumentsAreNumeric(arguments);
     BigDecimal argument1 = getArgumentAsADecimal(argument1Index, arguments);
