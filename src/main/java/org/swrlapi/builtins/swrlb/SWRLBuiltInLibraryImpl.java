@@ -1492,8 +1492,7 @@ public class SWRLBuiltInLibraryImpl extends AbstractSWRLBuiltInLibrary
   {
     final int argument1Index = 0;
     final int argument2Index = 1;
-    final int tol = 0.001;
-    
+
     checkThatAllArgumentsAreNumeric(arguments);
 
     OWLLiteral literal1 = getArgumentAsAnOWLLiteral(argument1Index, arguments);
