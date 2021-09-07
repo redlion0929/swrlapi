@@ -212,7 +212,7 @@ public class SWRLBuiltInLibraryImpl extends AbstractSWRLBuiltInLibrary
         return false;
     } else if (isArgumentNumeric(0, arguments)) {
       if (isArgumentNumeric(1, arguments))
-        return compareTwoNumericArguments(arguments) == 0;
+        return compareTwoNumericArgumentsUsingTol(arguments) == 0;
       else
         throw new InvalidSWRLBuiltInArgumentException(1,
           "expecting numeric argument for comparison, got " + representArgumentAsAString(1, arguments));
@@ -1466,19 +1466,42 @@ public class SWRLBuiltInLibraryImpl extends AbstractSWRLBuiltInLibrary
   }
   
   // Private methods
+  private int compareTwoNumericArgumentsUsingTol(@NonNull List<@NonNull SWRLBuiltInArgument> arguments)
+    throws SWRLBuiltInException
+  {
+    final int argument1Index = 0;
+    final int argument2Index = 1;
+    final int tol = 0.001;
+    
+    checkThatAllArgumentsAreNumeric(arguments);
 
+    OWLLiteral literal1 = getArgumentAsAnOWLLiteral(argument1Index, arguments);
+    OWLLiteral literal2 = getArgumentAsAnOWLLiteral(argument2Index, arguments);
+    
+    
+    
+    return OWLLiteralComparator.COMPARATOR.compare(literal1, literal2);
+  }
+  
+  
   private int compareTwoNumericArguments(@NonNull List<@NonNull SWRLBuiltInArgument> arguments)
     throws SWRLBuiltInException
   {
     final int argument1Index = 0;
     final int argument2Index = 1;
+    Bigdecimal tol = new Bigdecimal(0.001);
 
     checkThatAllArgumentsAreNumeric(arguments);
-
-    OWLLiteral literal1 = getArgumentAsAnOWLLiteral(argument1Index, arguments);
-    OWLLiteral literal2 = getArgumentAsAnOWLLiteral(argument2Index, arguments);
-
-    return OWLLiteralComparator.COMPARATOR.compare(literal1, literal2);
+    BigDecimal argument1 = getArgumentAsADecimal(argument1Index, arguments);
+    BigDecimal argument2 = getArgumentAsADecimal(argument2Index, arguments);
+    
+    sub = argument1.subtract(argument2).abs();
+    res = sub.compareTo(tol);
+    
+    if (res == 0 || res == -1) 
+      return 0;
+    else 
+      return -1;
   }
 
   private boolean mathOperation(@NonNull String builtInName, @NonNull List<@NonNull SWRLBuiltInArgument> arguments)
