@@ -1477,8 +1477,9 @@ public class SWRLBuiltInLibraryImpl extends AbstractSWRLBuiltInLibrary
     BigDecimal argument1 = getArgumentAsADecimal(argument1Index, arguments);
     BigDecimal argument2 = getArgumentAsADecimal(argument2Index, arguments);
     
-    BigDecimal sub = argument1.subtract(argument2).abs();
-    int res = sub.compareTo(tol);
+    BigDecimal sub1 = argument1.subtract(argument2).abs();
+    BigDecimal sub_res = sub1.divide(argument2.abs()).abs();
+    int res = sub_res.compareTo(tol);
     
     if (res == 0 || res == -1) 
       return 0;
