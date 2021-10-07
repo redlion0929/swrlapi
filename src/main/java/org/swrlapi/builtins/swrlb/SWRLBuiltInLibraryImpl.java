@@ -133,10 +133,7 @@ public class SWRLBuiltInLibraryImpl extends AbstractSWRLBuiltInLibrary
       operationResult = argument5;
 	
     if (hasUnbound1stArgument) { // Bind the result to the first argument.
-      List<@NonNull SWRLBuiltInArgument> boundInputArguments = arguments.subList(1, arguments.size());
-
-      SWRLBuiltInArgument resultArgument = createLeastNarrowNumericLiteralBuiltInArgument(operationResult,
-        boundInputArguments);
+      SWRLBuiltInArgument resultArgument = createLiteralBuiltInArgument(operationResult);
       arguments.get(0).asVariable().setBuiltInResult(resultArgument);
       return true;
   }
