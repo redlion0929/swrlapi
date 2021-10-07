@@ -60,7 +60,7 @@ public class SWRLBuiltInLibraryImpl extends AbstractSWRLBuiltInLibrary
     "addDayTimeDurationToDate", "subtractYearMonthDurationFromDate", "subtractDayTimeDurationFromDate",
     "addDayTimeDurationToTime", "subtractDayTimeDurationFromTime", "subtractDateTimesYieldingYearMonthDuration",
     "subtractDateTimesYieldingYearMonthDuration", "resolveURI", "anyURI", "listConcat", "listIntersection",
-    "listSubtraction", "member", "length", "first", "rest", "sublist", "empty", "addadd" , "max", "min", "ifTwo", "ifThree"};
+    "listSubtraction", "member", "length", "first", "rest", "sublist", "empty", "addadd" , "max", "min", "ifTwo", "ifThree", "OKNG"};
 
   private static final String SWRLBPrefix = "swrlb:";
 
@@ -86,6 +86,7 @@ public class SWRLBuiltInLibraryImpl extends AbstractSWRLBuiltInLibrary
   private static final String SWRLB_MIN = SWRLBPrefix + "min";
   private static final String SWRLB_IF_TWO = SWRLBPrefix + "ifTwo";
   private static final String SWRLB_IF_THREE = SWRLBPrefix + "ifThree";
+  private static final String SWRLB_OKNG = SWRLBPrefix + "OKNG";
   
   private static final MathContext mathContext = new MathContext(100);
 
@@ -99,7 +100,49 @@ public class SWRLBuiltInLibraryImpl extends AbstractSWRLBuiltInLibrary
   }
 
   // Built-ins for comparison, defined in Section 8.1. of http://www.daml.org/2004/04/swrl/builtins.html.
+  
+    /**
+   * @param arguments The built-in arguments
+   * @return The result of the built-in
+   * @throws SWRLBuiltInException If an error occurs during processing
+   */
+  public boolean OKNG(@NonNull List<@NonNull SWRLBuiltInArgument> arguments) throws SWRLBuiltInException
+  {
+    String argument1 = "";
+    boolean hasUnbound1stArgument = false;
+    String operationResult;
 
+    checkForUnboundNonFirstArguments(arguments); // Only supports binding of first argument
+
+    if (isUnboundArgument(0, arguments))
+      hasUnbound1stArgument = true;
+
+    // Argument number checking will have been performed by invoking method.
+    if (!hasUnbound1stArgument)
+      argument1 = getArgumentAsAString(0, arguments);
+
+    checkNumberOfArgumentsEqualTo(5, arguments.size());
+    
+    BigDecimal argument2 = getArgumentAsADecimal(1, arguments);
+    BigDecimal argument3 = getArgumentAsADecimal(2, arguments);
+    String argument4 = getArgumentAsAString(3, arguments);
+    String argument5 = getArgumentAsAStringl(4, arguments);
+      
+    if (argument2.compareTo(argument3)<0) 
+      operationResult = argument4;
+    else
+      operationResult = argument5;
+	
+    if (hasUnbound1stArgument) { // Bind the result to the first argument.
+      List<@NonNull SWRLBuiltInArgument> boundInputArguments = arguments.subList(1, arguments.size());
+
+      SWRLBuiltInArgument resultArgument = createLeastNarrowNumericLiteralBuiltInArgument(operationResult,
+        boundInputArguments);
+      arguments.get(0).asVariable().setBuiltInResult(resultArgument);
+      return true;
+  }
+  return true;
+  }
   /**
    * @param arguments The built-in arguments
    * @return The result of the built-in
