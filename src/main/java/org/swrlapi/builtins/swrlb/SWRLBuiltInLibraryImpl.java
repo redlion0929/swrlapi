@@ -125,7 +125,7 @@ public class SWRLBuiltInLibraryImpl extends AbstractSWRLBuiltInLibrary
     BigDecimal argument2 = getArgumentAsADecimal(1, arguments);
     BigDecimal argument3 = getArgumentAsADecimal(2, arguments);
     String argument4 = getArgumentAsAString(3, arguments);
-    String argument5 = getArgumentAsAStringl(4, arguments);
+    String argument5 = getArgumentAsAString(4, arguments);
       
     if (argument2.compareTo(argument3)<0) 
       operationResult = argument4;
