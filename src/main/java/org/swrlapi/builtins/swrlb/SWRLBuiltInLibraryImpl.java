@@ -86,7 +86,6 @@ public class SWRLBuiltInLibraryImpl extends AbstractSWRLBuiltInLibrary
   private static final String SWRLB_MIN = SWRLBPrefix + "min";
   private static final String SWRLB_IF_TWO = SWRLBPrefix + "ifTwo";
   private static final String SWRLB_IF_THREE = SWRLBPrefix + "ifThree";
-  private static final String SWRLB_OKNG = SWRLBPrefix + "OKNG";
   
   private static final MathContext mathContext = new MathContext(100);
 
