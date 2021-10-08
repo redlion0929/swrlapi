@@ -120,12 +120,12 @@ public class SWRLBuiltInLibraryImpl extends AbstractSWRLBuiltInLibrary
     if (!hasUnbound1stArgument)
       argument1 = getArgumentAsAString(0, arguments);
 
-    checkNumberOfArgumentsEqualTo(5, arguments.size());
+    checkNumberOfArgumentsEqualTo(3, arguments.size());
     
     BigDecimal argument2 = getArgumentAsADecimal(1, arguments);
     BigDecimal argument3 = getArgumentAsADecimal(2, arguments);
-    String argument4 = getArgumentAsAString(3, arguments);
-    String argument5 = getArgumentAsAString(4, arguments);
+    String argument4 = "OK";
+    String argument5 = "NG";
       
     if (argument2.compareTo(argument3)<0) 
       operationResult = argument4;
