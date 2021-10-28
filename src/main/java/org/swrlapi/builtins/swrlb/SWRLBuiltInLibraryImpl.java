@@ -1560,7 +1560,7 @@ public class SWRLBuiltInLibraryImpl extends AbstractSWRLBuiltInLibrary
     if (builtInName.equalsIgnoreCase(SWRLB_ADD)) {
       operationResult = BigDecimal.ZERO;
       for (int argumentNumber = 1; argumentNumber < arguments.size(); argumentNumber++) {
-        operationResult = operationResult.add(getArgumentAsADecimal(argumentNumber, arguments)).setScale(4, RoundingMode.HALF_UP);
+        operationResult = operationResult.add(getArgumentAsADecimal(argumentNumber, arguments),MathContext.DECIMAL64).setScale(4, RoundingMode.HALF_UP);
       }
     } else if (builtInName.equalsIgnoreCase(SWRLB_MULTIPLY)) {
       operationResult = BigDecimal.ONE;
@@ -1570,7 +1570,7 @@ public class SWRLBuiltInLibraryImpl extends AbstractSWRLBuiltInLibrary
     } else if (builtInName.equalsIgnoreCase(SWRLB_SUBTRACT)) {
       BigDecimal argument2 = getArgumentAsADecimal(1, arguments);
       BigDecimal argument3 = getArgumentAsADecimal(2, arguments);
-      operationResult = argument2.subtract(argument3).setScale(4, RoundingMode.HALF_UP);
+      operationResult = argument2.subtract(argument3,MathContext.DECIMAL64).setScale(4, RoundingMode.HALF_UP);
     } else if (builtInName.equalsIgnoreCase(SWRLB_DIVIDE)) {
       BigDecimal argument2 = getArgumentAsADecimal(1, arguments);
       BigDecimal argument3 = getArgumentAsADecimal(2, arguments);
