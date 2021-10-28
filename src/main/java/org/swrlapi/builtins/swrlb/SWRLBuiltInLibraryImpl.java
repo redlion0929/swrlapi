@@ -1565,7 +1565,7 @@ public class SWRLBuiltInLibraryImpl extends AbstractSWRLBuiltInLibrary
     } else if (builtInName.equalsIgnoreCase(SWRLB_MULTIPLY)) {
       operationResult = BigDecimal.ONE;
       for (int argumentNumber = 1; argumentNumber < arguments.size(); argumentNumber++) {
-        operationResult = operationResult.multiply(getArgumentAsADecimal(argumentNumber, arguments));
+        operationResult = operationResult.multiply(getArgumentAsADecimal(argumentNumber, arguments), MathContext.DECIMAL64).setScale(4, RoundingMode.HALF_UP);
       }
     } else if (builtInName.equalsIgnoreCase(SWRLB_SUBTRACT)) {
       BigDecimal argument2 = getArgumentAsADecimal(1, arguments);
