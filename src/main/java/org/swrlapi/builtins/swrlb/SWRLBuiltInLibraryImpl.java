@@ -60,7 +60,7 @@ public class SWRLBuiltInLibraryImpl extends AbstractSWRLBuiltInLibrary
     "addDayTimeDurationToDate", "subtractYearMonthDurationFromDate", "subtractDayTimeDurationFromDate",
     "addDayTimeDurationToTime", "subtractDayTimeDurationFromTime", "subtractDateTimesYieldingYearMonthDuration",
     "subtractDateTimesYieldingYearMonthDuration", "resolveURI", "anyURI", "listConcat", "listIntersection",
-    "listSubtraction", "member", "length", "first", "rest", "sublist", "empty", "addadd" , "max", "min", "ifTwo", "ifThree", "OKNG"};
+    "listSubtraction", "member", "length", "first", "rest", "sublist", "empty", "addadd" , "max", "min", "ifTwo", "ifThree", "OKNG", "sign"};
 
   private static final String SWRLBPrefix = "swrlb:";
 
@@ -86,6 +86,7 @@ public class SWRLBuiltInLibraryImpl extends AbstractSWRLBuiltInLibrary
   private static final String SWRLB_MIN = SWRLBPrefix + "min";
   private static final String SWRLB_IF_TWO = SWRLBPrefix + "ifTwo";
   private static final String SWRLB_IF_THREE = SWRLBPrefix + "ifThree";
+  private static final String SWRLB_SIGN = SWRLBPrefix + "sign";
   
   private static final MathContext mathContext = new MathContext(100);
 
@@ -1493,6 +1494,17 @@ public class SWRLBuiltInLibraryImpl extends AbstractSWRLBuiltInLibrary
     return mathOperation(SWRLB_IF_TWO, arguments);
   }
   
+   /**
+   * @param arguments The built-in arguments
+   * @return The result of the built-in
+   * @throws SWRLBuiltInException If an error occurs during processing
+   */
+  public boolean sign(@NonNull List<@NonNull SWRLBuiltInArgument> arguments) throws SWRLBuiltInException
+  {
+    checkNumberOfArgumentsEqualTo(2, arguments.size());
+    return mathOperation(SWRLB_SIGN, arguments);
+  }
+  
   /**
    * @param arguments The built-in arguments
    * @return The result of the built-in
@@ -1648,7 +1660,18 @@ public class SWRLBuiltInLibraryImpl extends AbstractSWRLBuiltInLibrary
       else
         operationResult = argument5;
         
-    } else if (builtInName.equalsIgnoreCase(SWRLB_IF_THREE)) {
+    } else if (builtInName.equalsIgnoreCase(SWRLB_SIGN)) {
+      BigDecimal argument2 = getArgumentAsADecimal(1, arguments);
+      BigDecimal argument3 = new BigDecimal("0");
+      
+      if (argument2.compareTo(argument3)<0) 
+        operationResult = new BigDecimal("-1");
+      else if(argument2.compareTo(argument3)==0)
+        operationResult = new BigDecimal("0");
+      else
+      	operationResult = new BigDecimal("1");
+        
+    }else if (builtInName.equalsIgnoreCase(SWRLB_IF_THREE)) {
       BigDecimal argument2 = getArgumentAsADecimal(1, arguments);
       BigDecimal argument3 = getArgumentAsADecimal(2, arguments);
       BigDecimal argument4 = getArgumentAsADecimal(3, arguments);
