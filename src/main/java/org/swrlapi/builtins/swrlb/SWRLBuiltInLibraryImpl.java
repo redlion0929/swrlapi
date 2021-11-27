@@ -109,7 +109,7 @@ public class SWRLBuiltInLibraryImpl extends AbstractSWRLBuiltInLibrary
    */
   public boolean OKNG(@NonNull List<@NonNull SWRLBuiltInArgument> arguments) throws SWRLBuiltInException
   {
-    checkNumberOfArgumentsEqualTo(5, arguments.size());
+    checkNumberOfArgumentsEqualTo(3, arguments.size());
     return mathOperation(SWRLB_OKNG, arguments);
   }
   /**
