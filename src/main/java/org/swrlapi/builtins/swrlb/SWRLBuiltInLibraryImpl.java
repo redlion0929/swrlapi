@@ -1637,9 +1637,9 @@ public class SWRLBuiltInLibraryImpl extends AbstractSWRLBuiltInLibrary
       BigDecimal argument3 = getArgumentAsADecimal(2, arguments);
       
       if (argument2.compareTo(argument3)<0) 
-        operationResult = 1;
+        operationResult = new BigDecimal("1");
       else
-        operationResult = 0;
+        operationResult = new BigDecimal("0");
         
     } else if (builtInName.equalsIgnoreCase(SWRLB_SIGN)) {
       BigDecimal argument2 = getArgumentAsADecimal(1, arguments);
