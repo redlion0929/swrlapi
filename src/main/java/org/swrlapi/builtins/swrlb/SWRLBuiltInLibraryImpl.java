@@ -87,6 +87,7 @@ public class SWRLBuiltInLibraryImpl extends AbstractSWRLBuiltInLibrary
   private static final String SWRLB_IF_TWO = SWRLBPrefix + "ifTwo";
   private static final String SWRLB_IF_THREE = SWRLBPrefix + "ifThree";
   private static final String SWRLB_SIGN = SWRLBPrefix + "sign";
+  private static final String SWRLB_OKNG = SWRLBPrefix + "OKNG";
   
   private static final MathContext mathContext = new MathContext(100);
 
@@ -108,37 +109,8 @@ public class SWRLBuiltInLibraryImpl extends AbstractSWRLBuiltInLibrary
    */
   public boolean OKNG(@NonNull List<@NonNull SWRLBuiltInArgument> arguments) throws SWRLBuiltInException
   {
-    String argument1 = "";
-    boolean hasUnbound1stArgument = false;
-    String operationResult;
-
-    checkForUnboundNonFirstArguments(arguments); // Only supports binding of first argument
-
-    if (isUnboundArgument(0, arguments))
-      hasUnbound1stArgument = true;
-
-    // Argument number checking will have been performed by invoking method.
-    if (!hasUnbound1stArgument)
-      argument1 = getArgumentAsAString(0, arguments);
-
-    checkNumberOfArgumentsEqualTo(3, arguments.size());
-    
-    BigDecimal argument2 = getArgumentAsADecimal(1, arguments);
-    BigDecimal argument3 = getArgumentAsADecimal(2, arguments);
-    String argument4 = "OK";
-    String argument5 = "NG";
-      
-    if (argument2.compareTo(argument3)<0) 
-      operationResult = argument4;
-    else
-      operationResult = argument5;
-	
-    if (hasUnbound1stArgument) { // Bind the result to the first argument.
-      SWRLBuiltInArgument resultArgument = createLiteralBuiltInArgument(operationResult);
-      arguments.get(0).asVariable().setBuiltInResult(resultArgument);
-      return true;
-  }
-  return true;
+    checkNumberOfArgumentsEqualTo(5, arguments.size());
+    return mathOperation(SWRLB_OKNG, arguments);
   }
   /**
    * @param arguments The built-in arguments
@@ -1659,6 +1631,15 @@ public class SWRLBuiltInLibraryImpl extends AbstractSWRLBuiltInLibrary
         operationResult = argument4;
       else
         operationResult = argument5;
+        
+    } else if (builtInName.equalsIgnoreCase(SWRLB_OKNG)) {
+      BigDecimal argument2 = getArgumentAsADecimal(1, arguments);
+      BigDecimal argument3 = getArgumentAsADecimal(2, arguments);
+      
+      if (argument2.compareTo(argument3)<0) 
+        operationResult = 1;
+      else
+        operationResult = 0;
         
     } else if (builtInName.equalsIgnoreCase(SWRLB_SIGN)) {
       BigDecimal argument2 = getArgumentAsADecimal(1, arguments);
