@@ -100,14 +100,7 @@ public class SWRLBuiltInLibraryImpl extends AbstractSWRLBuiltInLibrary
   }
 
   // Built-ins for comparison, defined in Section 8.1. of http://www.daml.org/2004/04/swrl/builtins.html.
-  
-    /**
-   * @param arguments The built-in arguments
-   * @return The result of the built-in
-   * @throws SWRLBuiltInException If an error occurs during processing
-   */
-  public boolean OKNG(@NonNull List<@NonNull SWRLBuiltInArgument> arguments) throws SWRLBuiltInException
-  {
+
     /**
    * @param arguments The built-in arguments
    * @return The result of the built-in
@@ -148,7 +141,7 @@ if (isUnboundArgument(0, arguments))
   }
   return true;
   }
-  }
+  
   /**
    * @param arguments The built-in arguments
    * @return The result of the built-in
